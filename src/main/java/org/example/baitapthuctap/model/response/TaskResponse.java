@@ -3,6 +3,7 @@ package org.example.baitapthuctap.model.response;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.baitapthuctap.entity.Task;
+import org.example.baitapthuctap.enums.TaskStatus;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ public class TaskResponse {
     private Integer id;
     private String title;
     private String description;
-    private Integer status;
+    private TaskStatus status;
 
     public TaskResponse(Task task) {
         this.id = task.getId();
