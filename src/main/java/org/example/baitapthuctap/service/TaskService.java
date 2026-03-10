@@ -139,4 +139,8 @@ public class TaskService {
 
         return new TaskResponse(task);
     }
+
+    public List<Task> getTaskByUsername(String username){
+        return taskRepository.findByUserUsername(username);
+    }
 }
