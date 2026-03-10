@@ -1,5 +1,6 @@
 package org.example.baitapthuctap.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Project {
     @Column(name = "descriptions")
     private String description;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> tasks;
 }

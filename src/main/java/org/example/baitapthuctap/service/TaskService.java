@@ -87,4 +87,12 @@ public class TaskService {
 
         return new TaskResponse(task);
     }
+
+    public List<Task> getTaskByUser(Integer userId){
+        return taskRepository.findByUserId(userId);
+    }
+
+    public List<Task> getTaskByProject(Integer projectId){
+        return taskRepository.findByProjectId(projectId);
+    }
 }
