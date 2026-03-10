@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.baitapthuctap.enums.TaskStatus;
 
 @Getter
 @Setter
@@ -21,8 +22,9 @@ public class Task {
     @Column(name = "descriptions")
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "statuss")
-    private Integer status;
+    private TaskStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", referencedColumnName = "id", nullable = false)

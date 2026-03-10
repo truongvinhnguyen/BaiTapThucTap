@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.baitapthuctap.enums.TaskStatus;
 
 @Getter
 @Setter
@@ -16,6 +17,8 @@ public class TaskRequest {
     @NotBlank(message = "Description không được để trống")
     private String description;
 
-    @NotNull(message = "Status không được null")
-    private Integer status;
+    @NotNull(message = "ProjectId không được để trống")
+    private Integer projectId;
+
+    private TaskStatus status;
 }

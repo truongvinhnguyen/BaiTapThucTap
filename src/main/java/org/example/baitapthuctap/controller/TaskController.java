@@ -29,28 +29,58 @@ public class TaskController {
     }
 
     @PutMapping("/updateTask/{id}")
-    public ResponseObject<?> updateTask(@PathVariable Integer id, @RequestBody TaskRequest taskRequest) {
-        return new ResponseObject<>(taskService.update(taskRequest,id), "Cập nhật thành công");
+    public ResponseObject<?> updateTask(@PathVariable Integer id,
+                                        @RequestBody TaskRequest taskRequest) {
+
+        return new ResponseObject<>(taskService.update(taskRequest, id),
+                "Cập nhật thành công");
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseObject<?> deleteTask(@PathVariable Integer id) {
+
         taskService.delete(id);
+
         return new ResponseObject<>(null, "Xóa thành công");
     }
 
+
     @PutMapping("/{taskId}/assign/{userId}")
-    public ResponseObject<?> assign(@PathVariable Integer taskId, @PathVariable Integer userId) {
-        return new ResponseObject<>(taskService.assignUser(taskId, userId), "Gắn task thành công");
+    public ResponseObject<?> assign(@PathVariable Integer taskId,
+                                    @PathVariable Integer userId) {
+
+        return new ResponseObject<>(
+                taskService.assignUser(taskId, userId),
+                "Gắn task thành công"
+        );
     }
 
     @GetMapping("/user/{userId}")
     public ResponseObject<?> getTaskByUser(@PathVariable Integer userId){
-        return ResponseObject.success(taskService.getTaskByUser(userId),"Task theo user");
+
+        return ResponseObject.success(
+                taskService.getTaskByUser(userId),
+                "Task theo user"
+        );
     }
 
     @GetMapping("/project/{projectId}")
     public ResponseObject<?> getTaskByProject(@PathVariable Integer projectId){
-        return ResponseObject.success(taskService.getTaskByProject(projectId),"Task theo project");
+
+        return ResponseObject.success(
+                taskService.getTaskByProject(projectId),
+                "Task theo project"
+        );
     }
+
+    @PutMapping("/updateStatus/{taskId}/status")
+    public ResponseObject<?> updateStatus(@PathVariable Integer taskId,
+                                          @RequestBody TaskRequest req){
+
+        return ResponseObject.success(
+                taskService.updateStatus(taskId, req.getStatus()),
+                "Cập nhật status thành công"
+        );
+    }
+
 }
