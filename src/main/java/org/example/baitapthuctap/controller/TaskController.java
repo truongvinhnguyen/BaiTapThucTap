@@ -5,6 +5,7 @@ import org.example.baitapthuctap.model.request.TaskRequest;
 import org.example.baitapthuctap.model.response.ResponseObject;
 import org.example.baitapthuctap.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -61,12 +62,14 @@ public class TaskController {
         );
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseObject<?> getTaskByUser(@PathVariable Integer userId){
+    @GetMapping("/user")
+    public ResponseObject<?> getTaskOfUser(Authentication authentication){
+
+        String username = authentication.getName();
 
         return ResponseObject.success(
-                taskService.getTaskByUser(userId),
-                "Danh sách task theo user"
+                taskService.getTaskByUsername(username),
+                "Danh sách task của user"
         );
     }
 
@@ -88,4 +91,6 @@ public class TaskController {
                 "Cập nhật trạng thái task thành công"
         );
     }
+
+
 }
