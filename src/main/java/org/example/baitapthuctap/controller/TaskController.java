@@ -1,15 +1,11 @@
 package org.example.baitapthuctap.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.eclipse.tags.shaded.org.apache.regexp.RE;
-import org.example.baitapthuctap.entity.Task;
+import jakarta.validation.Valid;
 import org.example.baitapthuctap.model.request.TaskRequest;
 import org.example.baitapthuctap.model.response.ResponseObject;
 import org.example.baitapthuctap.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -20,20 +16,28 @@ public class TaskController {
 
     @GetMapping
     public ResponseObject<?> getAllTasks() {
-        return new ResponseObject<>(taskService.findAll());
+        return ResponseObject.success(
+                taskService.findAll(),
+                "Lấy danh sách task thành công"
+        );
     }
 
     @PostMapping("/addTask")
-    public ResponseObject<?> addTask(@RequestBody TaskRequest taskRequest) {
-        return new ResponseObject<>(taskService.add(taskRequest), "Thêm task thành công");
+    public ResponseObject<?> addTask(@Valid @RequestBody TaskRequest taskRequest) {
+        return ResponseObject.success(
+                taskService.add(taskRequest),
+                "Thêm task thành công"
+        );
     }
 
     @PutMapping("/updateTask/{id}")
     public ResponseObject<?> updateTask(@PathVariable Integer id,
-                                        @RequestBody TaskRequest taskRequest) {
+                                        @Valid @RequestBody TaskRequest taskRequest) {
 
-        return new ResponseObject<>(taskService.update(taskRequest, id),
-                "Cập nhật thành công");
+        return ResponseObject.success(
+                taskService.update(taskRequest, id),
+                "Cập nhật task thành công"
+        );
     }
 
     @DeleteMapping("/delete/{id}")
@@ -41,17 +45,19 @@ public class TaskController {
 
         taskService.delete(id);
 
-        return new ResponseObject<>(null, "Xóa thành công");
+        return ResponseObject.success(
+                null,
+                "Xóa task thành công"
+        );
     }
-
 
     @PutMapping("/{taskId}/assign/{userId}")
     public ResponseObject<?> assign(@PathVariable Integer taskId,
                                     @PathVariable Integer userId) {
 
-        return new ResponseObject<>(
+        return ResponseObject.success(
                 taskService.assignUser(taskId, userId),
-                "Gắn task thành công"
+                "Gán task cho user thành công"
         );
     }
 
@@ -60,7 +66,7 @@ public class TaskController {
 
         return ResponseObject.success(
                 taskService.getTaskByUser(userId),
-                "Task theo user"
+                "Danh sách task theo user"
         );
     }
 
@@ -69,7 +75,7 @@ public class TaskController {
 
         return ResponseObject.success(
                 taskService.getTaskByProject(projectId),
-                "Task theo project"
+                "Danh sách task theo project"
         );
     }
 
@@ -79,8 +85,7 @@ public class TaskController {
 
         return ResponseObject.success(
                 taskService.updateStatus(taskId, req.getStatus()),
-                "Cập nhật status thành công"
+                "Cập nhật trạng thái task thành công"
         );
     }
-
 }

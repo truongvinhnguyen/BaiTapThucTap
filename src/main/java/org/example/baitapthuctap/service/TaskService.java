@@ -4,6 +4,7 @@ import org.example.baitapthuctap.entity.Project;
 import org.example.baitapthuctap.entity.Task;
 import org.example.baitapthuctap.entity.User;
 import org.example.baitapthuctap.enums.TaskStatus;
+import org.example.baitapthuctap.exception.CustomException;
 import org.example.baitapthuctap.model.request.TaskRequest;
 import org.example.baitapthuctap.model.response.TaskResponse;
 import org.example.baitapthuctap.repository.ProjectRepository;
@@ -12,6 +13,7 @@ import org.example.baitapthuctap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -42,6 +44,10 @@ public class TaskService {
         task.setTitle(req.getTitle());
         task.setDescription(req.getDescription());
         task.setProject(project);
+
+        if(req.getDeadline() != null && req.getDeadline().isBefore(LocalDate.now())){
+            throw new CustomException("Deadline phải lớn hơn ngày hiện tại");
+        }
 
         if (req.getStatus() == null) {
             task.setStatus(TaskStatus.TODO);
