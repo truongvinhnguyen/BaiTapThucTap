@@ -1,5 +1,6 @@
 package org.example.baitapthuctap.controller;
 
+import jakarta.validation.Valid;
 import org.example.baitapthuctap.model.request.UserRequest;
 import org.example.baitapthuctap.model.response.ResponseObject;
 import org.example.baitapthuctap.service.UserService;
@@ -15,17 +16,28 @@ public class UserController {
 
     @GetMapping
     public ResponseObject<?> getAll(){
-        return ResponseObject.success(userService.getAll(),"Lấy user thành công");
+        return ResponseObject.success(
+                userService.getAll(),
+                "Lấy danh sách user thành công"
+        );
     }
 
-    @PostMapping("/add")
-    public ResponseObject<?> create(@RequestBody UserRequest request){
-        return ResponseObject.success(userService.create(request),"Tạo user thành công");
+    @PostMapping
+    public ResponseObject<?> create(@Valid @RequestBody UserRequest request){
+        return ResponseObject.success(
+                userService.create(request),
+                "Tạo user thành công"
+        );
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseObject<?> delete(@PathVariable Integer id){
+
         userService.delete(id);
-        return ResponseObject.success(null,"Xóa user thành công");
+
+        return ResponseObject.success(
+                null,
+                "Xóa user thành công"
+        );
     }
 }
