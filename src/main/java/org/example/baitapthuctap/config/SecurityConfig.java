@@ -28,23 +28,26 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
                 .authorizeHttpRequests(auth -> auth
 
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        .requestMatchers("/api/projects/**")
-                        .hasRole("MANAGER")
-
-                        .requestMatchers("/api/tasks/user/**")
-                        .hasRole("USER")
+                        .requestMatchers("/api/projects/**").hasRole("MANAGER")
+                        .requestMatchers("/api/tasks/user/**").hasRole("USER")
 
                         .anyRequest().authenticated()
                 )
 
-                .addFilterBefore(jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
