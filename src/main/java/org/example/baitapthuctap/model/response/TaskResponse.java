@@ -13,11 +13,14 @@ public class TaskResponse {
     private String title;
     private String description;
     private TaskStatus status;
+    private Integer userId;
 
     public TaskResponse(Task task) {
         this.id = task.getId();
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.status = task.getStatus();
-    }
+        if(task.getUser() != null){
+            this.userId = task.getUser().getId();
+        }    }
 }
